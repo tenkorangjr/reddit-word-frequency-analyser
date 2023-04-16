@@ -10,17 +10,14 @@ import java.util.regex.Pattern;
 public class WordCounter {
 
     MapSet<String, Integer> storageMap;
-    private String dataStructure;
     private int totalWordCount;
 
     public WordCounter(String data_structure) {
 
         if (data_structure.equals("bst")) {
             storageMap = new BSTMap<String, Integer>();
-            dataStructure = "bst";
         } else if (data_structure.equals("hashmap")) {
             storageMap = new HashMap<String, Integer>();
-            dataStructure = "hashmap";
         }
 
         totalWordCount = 0;
@@ -82,11 +79,7 @@ public class WordCounter {
     }
 
     public void clearMap() {
-        if (this.dataStructure == "bst") {
-            storageMap = new BSTMap<>();
-        } else if (this.dataStructure == "hashmap") {
-            storageMap = new HashMap<>();
-        }
+        storageMap.clear();
         totalWordCount = 0;
     }
 
@@ -99,11 +92,11 @@ public class WordCounter {
     }
 
     public int getCount(String word) {
-        return storageMap.get(word);
+        return storageMap.containsKey(word) ? storageMap.get(word) : 0;
     }
 
     public double getFrequency(String word) {
-        return (double) getCount(word) / totalWordCount;
+        return (double) getCount(word) / (double) totalWordCount;
     }
 
     public boolean writeWordCount(String filename) {
@@ -115,7 +108,8 @@ public class WordCounter {
             writer.write("Total number of words: " + totalWordCount() + "\n");
 
             for (MapSet.KeyValuePair<String, Integer> entry : storageMap.entrySet()) {
-                System.out.println("Word: " + entry.getKey() + " Frequency: " + entry.getValue());
+                writer.write("Word: " + entry.getKey() + " | Frequency: " + entry.getValue() + "\n");
+
             }
             writer.close();
             return true;
@@ -178,6 +172,11 @@ public class WordCounter {
     }
 
     public static void main(String[] args) {
+        WordCounter tester = new WordCounter("bst");
+
+        ArrayList<String> fileList = tester.readWords("reddit_comments_2011.txt");
+        tester.buildMap(fileList);
+        tester.writeWordCount("testBST.txt");
 
     }
 }

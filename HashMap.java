@@ -48,7 +48,7 @@ public class HashMap<K, V> implements MapSet<K, V> {
             for (Node<K, V> curNode = buckets[index]; curNode != null; curNode = curNode.next) {
                 if (curNode.getKey().equals(key)) {
                     V oldVal = curNode.getValue();
-                    curNode.setValue(oldVal);
+                    curNode.setValue(value);
                     return oldVal;
                 }
             }

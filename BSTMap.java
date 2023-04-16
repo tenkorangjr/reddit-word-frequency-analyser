@@ -68,15 +68,15 @@ public class BSTMap<K, V> implements MapSet<K, V> {
                 return put(key, value, curNode.right);
             }
         } else {
-            value = curNode.getValue();
+            V oldVal = curNode.getValue();
             curNode.setValue(value);
-            return value;
+            return oldVal;
         }
     }
 
     @Override
     public boolean containsKey(K key) {
-        if (key == null) {
+        if (root == null) {
             return false;
         }
 
