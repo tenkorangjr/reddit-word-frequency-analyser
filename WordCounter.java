@@ -11,6 +11,7 @@ public class WordCounter {
 
     MapSet<String, Integer> storageMap;
     private int totalWordCount;
+    HashMap<String, Integer> ignoreHashMap;
 
     public WordCounter(String data_structure) {
 
@@ -21,6 +22,40 @@ public class WordCounter {
         }
 
         totalWordCount = 0;
+        this.ignoreHashMap = readIgnore();
+    }
+
+    private HashMap<String, Integer> readIgnore() {
+
+        HashMap<String, Integer> output = new HashMap<>();
+
+        try {
+            FileReader reader = new FileReader("ignoreWords.txt");
+            BufferedReader bufferedReader = new BufferedReader(reader);
+
+            String line = bufferedReader.readLine();
+
+            while (line != null) {
+                output.put(line, 0);
+
+                line = bufferedReader.readLine();
+            }
+
+            bufferedReader.close();
+
+            totalWordCount = output.size();
+
+            return output;
+
+        } catch (FileNotFoundException e) {
+
+            System.out.println("WordCounter.readWords():: unable to open file " + "ignoreWords.txt");
+        } catch (IOException e) {
+
+            System.out.println("WordCounter.readWords():: error reading file " + "ignoreWords.txt");
+        }
+
+        return null;
     }
 
     public ArrayList<String> readWords(String filename) {
@@ -69,7 +104,9 @@ public class WordCounter {
             if (storageMap.containsKey(word)) {
                 storageMap.put(word, storageMap.get(word) + 1);
             } else {
-                storageMap.put(word, 1);
+                if (ignoreHashMap.get(word.toLowerCase()) == null) {
+                    storageMap.put(word, 1);
+                }
             }
         }
 
