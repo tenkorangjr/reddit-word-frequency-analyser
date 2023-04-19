@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Stack;
 
-@SuppressWarnings("unchecked")
-public class BSTMap<K, V> implements MapSet<K, V> {
+public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<K, V>> {
 
     private static class Node<K, V> extends KeyValuePair<K, V> {
         Node<K, V> left, right;
@@ -37,6 +38,40 @@ public class BSTMap<K, V> implements MapSet<K, V> {
 
     public BSTMap() {
         this(null);
+    }
+
+    @Override
+    public Iterator<KeyValuePair<K, V>> iterator() {
+        return new InOrderIterator();
+    }
+
+    private class InOrderIterator implements Iterator<KeyValuePair<K, V>> {
+
+        private Stack<Node<K, V>> stack;
+
+        public InOrderIterator() {
+            stack = new Stack<Node<K, V>>();
+            pushLeft(root);
+        }
+
+        private void pushLeft(Node<K, V> node) {
+            while (node != null) {
+                stack.push(node);
+                node = node.left;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !stack.isEmpty();
+        }
+
+        @Override
+        public KeyValuePair<K, V> next() {
+            Node<K, V> node = stack.pop();
+            pushLeft(node.right);
+            return node;
+        }
     }
 
     @Override
@@ -327,10 +362,14 @@ public class BSTMap<K, V> implements MapSet<K, V> {
         BSTMap<Integer, String> myTree = new BSTMap<>();
 
         myTree.put(10, "Michael");
-        myTree.put(20, "Michael");
-        myTree.put(1, "Michael");
-        myTree.put(15, "Michael");
+        myTree.put(20, "Joanne");
+        myTree.put(1, "Abigail");
+        myTree.put(15, "Mummy");
 
         System.out.println(myTree);
+
+        for (MapSet.KeyValuePair<Integer, String> curNode: myTree){
+            System.out.println(curNode.getValue());
+        }
     }
 }

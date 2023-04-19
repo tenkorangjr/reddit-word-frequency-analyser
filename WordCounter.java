@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+
 public class WordCounter {
 
-    class Node<K, V> {
+    private class Node<K, V> {
         private K key;
         private V value;
 
@@ -39,10 +40,12 @@ public class WordCounter {
     private int totalWordCount;
     private HashMap<String, Integer> ignoreHashMap;
     Node<String, Integer> maxNode;
+    ArrayList<MapSet.KeyValuePair<String, Integer>> maxTracker;
 
     public WordCounter(String data_structure) {
 
         maxNode = new Node<>();
+        maxTracker = new ArrayList<>();
 
         if (data_structure.equals("bst")) {
             storageMap = new BSTMap<String, Integer>();

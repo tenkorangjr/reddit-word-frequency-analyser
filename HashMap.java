@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @SuppressWarnings("unchecked")
-public class HashMap<K, V> implements MapSet<K, V> {
+public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>> {
 
-    public static class Node<K, V> extends KeyValuePair<K, V> {
+    public static class Node<K, V> extends MapSet.KeyValuePair<K, V> {
         Node<K, V> next;
 
         public Node(K key, V value, Node<K, V> next) {
@@ -28,6 +29,51 @@ public class HashMap<K, V> implements MapSet<K, V> {
 
     public HashMap() {
         this(16);
+    }
+
+    public Iterator<Node<K, V>> iterator() {
+        return new HashMapIterator();
+    }
+
+    private class HashMapIterator implements Iterator<Node<K, V>> {
+        private int bucketIndex;
+        private Node<K, V> currentNode;
+
+        public HashMapIterator() {
+            bucketIndex = -1;
+            currentNode = null;
+            for (int i = 0; i < buckets.length; i++) {
+                if (buckets[i] != null) {
+                    bucketIndex = i;
+                    currentNode = buckets[i];
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+        }
+
+        @Override
+        public Node<K, V> next() {
+            Node<K, V> result = currentNode;
+            if (currentNode.next != null) {
+                currentNode = currentNode.next;
+            } else {
+                bucketIndex++;
+                while (bucketIndex < buckets.length && buckets[bucketIndex] == null) {
+                    bucketIndex++;
+                }
+                if (bucketIndex == buckets.length) {
+                    currentNode = null;
+                } else {
+                    currentNode = buckets[bucketIndex];
+                }
+            }
+            return result;
+        }
     }
 
     private int capacity() {
@@ -269,21 +315,25 @@ public class HashMap<K, V> implements MapSet<K, V> {
     }
 
     public static void main(String[] args) {
-        HashMap<Integer, String> myDict = new HashMap<>();
+        // HashMap<String, Integer> myDict = new HashMap<>();
 
-        myDict.put(10, "Michael");
-        myDict.put(20, "Tracy");
-        myDict.put(30, "Vanessa");
-        myDict.put(21, "Joanne");
-        myDict.put(50, "Abi");
+        // myDict.put("Michael", 10);
+        // myDict.put("Tracy", 20);
+        // myDict.put("Vanessa", 50);
+        // myDict.put("Joanne", 90);
+        // myDict.put("Abi", 100);
 
-        System.out.println(myDict.remove(21));
+        // for(Node<String, Integer> curNode: myDict){
+        //     System.out.println(curNode.getKey());
+        // }
 
-        System.out.println(myDict);
+        // System.out.println(myDict.remove(21));
 
-        System.out.println(myDict.keySet());
-        System.out.println(myDict.values());
-        System.out.println(myDict.entrySet());
+        // System.out.println(myDict);
+
+        // System.out.println(myDict.keySet());
+        // System.out.println(myDict.values());
+        // System.out.println(myDict.entrySet());
     }
 
 }
