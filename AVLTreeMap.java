@@ -128,12 +128,15 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
     public V put(K key, V val) {
-        if (key == null) throw new IllegalArgumentException("first argument to put() is null");
+        V oldVal = null;
         if (val == null) {
             return null;
         }
+        if (containsKey(key)){
+            oldVal = this.get(key);
+        }
         root = put(root, key, val);
-        return root.getValue();
+        return oldVal;
     }
 
     /**
@@ -148,7 +151,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
      * @return the subtree
      */
     private Node<K, V> put(Node<K, V> curNode, K key, V val) {
-        if (curNode == null) return new Node<K, V>(key, val, 0, 1);
+        if (curNode == null){
+            return new Node<K, V>(key, val, 0, 1);
+        }
         int cmp = ((Comparable<K>) key).compareTo(curNode.getKey());
         if (cmp < 0) {
             curNode.left = put(curNode.left, key, val);
@@ -278,8 +283,10 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         if (!containsKey(key)){
             return null;
         }
+        V oldVal = this.get(key);
         root = remove(root, key);
-        return root.getValue();
+        
+        return oldVal;
     }
 
     /**
