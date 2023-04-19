@@ -110,31 +110,6 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return null;
     }
 
-    public V put(Node<K, V>[] buckets, K key, V value) {
-        int index = hash(key);
-
-        if (buckets[index] == null) {
-            buckets[index] = new Node<K, V>(key, value, null);
-        } else {
-            for (Node<K, V> curNode = buckets[index]; curNode != null; curNode = curNode.next) {
-                if (curNode.getKey().equals(key)) {
-                    V oldVal = curNode.getValue();
-                    curNode.setValue(oldVal);
-                    return oldVal;
-                }
-            }
-
-            buckets[index] = new Node<K, V>(key, value, buckets[index]);
-        }
-
-        size++;
-        if (size > maxLoadFactor * capacity()) {
-            resize(capacity() * 2);
-        }
-
-        return null;
-    }
-
     private void resize(int newSize) {
         Node<K, V>[] oldBuckets = this.buckets;
         this.buckets = (Node<K, V>[]) new Node[newSize];
