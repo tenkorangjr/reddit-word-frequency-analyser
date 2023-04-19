@@ -3,6 +3,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Stack;
 
+@SuppressWarnings("unchecked")
 public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<K, V>> {
 
     private static class Node<K, V> extends KeyValuePair<K, V> {
