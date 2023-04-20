@@ -3,7 +3,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Stack;
 
-
 @SuppressWarnings("unchecked")
 public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<K, V>> {
 
@@ -19,7 +18,7 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
             height = 1;
         }
 
-        public Node(K key, V value, int size , int height) {
+        public Node(K key, V value, int size, int height) {
             super(key, value);
             left = null;
             right = null;
@@ -85,83 +84,49 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
-    /**
-     * Returns the number key-value pairs in the symbol table.
-     * 
-     * @return the number key-value pairs in the symbol table
-     */
     public int size() {
         return size(root);
     }
 
-    /**
-     * Returns the number of nodes in the subtree.
-     * 
-     * @param x the subtree
-     * 
-     * @return the number of nodes in the subtree
-     */
     private int size(Node<K, V> curNode) {
-        if (curNode == null) return 0;
+        if (curNode == null)
+            return 0;
         return curNode.size;
     }
 
-    public int height(){
+    public int height() {
         return height(root);
     }
 
-    private int height(Node<K, V> curNode){
-        if (curNode == null){
+    private int height(Node<K, V> curNode) {
+        if (curNode == null) {
             return -1;
-        } return curNode.height;
+        }
+        return curNode.height;
     }
 
-    @Override
-    /**
-     * Inserts the specified key-value pair into the symbol table, overwriting
-     * the old value with the new value if the symbol table already contains the
-     * specified key. Deletes the specified key (and its associated value) from
-     * this symbol table if the specified value is {@code null}.
-     * 
-     * @param key the key
-     * @param val the value
-     * @throws IllegalArgumentException if {@code key} is {@code null}
-     */
     public V put(K key, V val) {
         V oldVal = null;
         if (val == null) {
             return null;
         }
-        if (containsKey(key)){
+        if (containsKey(key)) {
             oldVal = this.get(key);
         }
         root = put(root, key, val);
         return oldVal;
     }
 
-    /**
-     * Inserts the key-value pair in the subtree. It overrides the old value
-     * with the new value if the symbol table already contains the specified key
-     * and deletes the specified key (and its associated value) from this symbol
-     * table if the specified value is {@code null}.
-     * 
-     * @param x the subtree
-     * @param key the key
-     * @param val the value
-     * @return the subtree
-     */
     private Node<K, V> put(Node<K, V> curNode, K key, V val) {
-        if (curNode == null){
+        if (curNode == null) {
             return new Node<K, V>(key, val, 0, 1);
         }
         int cmp = ((Comparable<K>) key).compareTo(curNode.getKey());
         if (cmp < 0) {
             curNode.left = put(curNode.left, key, val);
-        }
-        else if (cmp > 0) {
+        } else if (cmp > 0) {
             curNode.right = put(curNode.right, key, val);
-        }
-        else {
+        } else {
             curNode.setValue(val);
             return curNode;
         }
@@ -176,8 +141,7 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
                 curNode.right = rotateRight(curNode.right);
             }
             curNode = rotateLeft(curNode);
-        }
-        else if (balanceFactor(curNode) > 1) {
+        } else if (balanceFactor(curNode) > 1) {
             if (balanceFactor(curNode.left) < 0) {
                 curNode.left = rotateLeft(curNode.left);
             }
@@ -201,12 +165,6 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return y;
     }
 
-    /**
-     * Rotates the given subtree to the left.
-     * 
-     * @param x the subtree
-     * @return the left rotated subtree
-     */
     private Node<K, V> rotateLeft(Node<K, V> curNode) {
         Node<K, V> tempNode = curNode.right;
         curNode.right = tempNode.left;
@@ -272,47 +230,28 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
-    /**
-     * Removes the specified key and its associated value from the symbol table
-     * (if the key is in the symbol table).
-     * 
-     * @param key the key
-     * @throws IllegalArgumentException if {@code key} is {@code null}
-     */
     public V remove(K key) {
-        if (!containsKey(key)){
+        if (!containsKey(key)) {
             return null;
         }
         V oldVal = this.get(key);
         root = remove(root, key);
-        
+
         return oldVal;
     }
 
-    /**
-     * Removes the specified key and its associated value from the given
-     * subtree.
-     * 
-     * @param x the subtree
-     * @param key the key
-     * @return the updated subtree
-     */
     private Node<K, V> remove(Node<K, V> curNode, K key) {
         int cmp = comparator.compare(key, curNode.getKey());
         if (cmp < 0) {
             curNode.left = remove(curNode.left, key);
-        }
-        else if (cmp > 0) {
+        } else if (cmp > 0) {
             curNode.right = remove(curNode.right, key);
-        }
-        else {
+        } else {
             if (curNode.left == null) {
                 return curNode.right;
-            }
-            else if (curNode.right == null) {
+            } else if (curNode.right == null) {
                 return curNode.left;
-            }
-            else {
+            } else {
                 Node<K, V> tempNode = curNode;
                 curNode = min(tempNode.right);
                 curNode.right = deleteMin(tempNode.right);
@@ -328,34 +267,19 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return min(root).getKey();
     }
 
-    /**
-     * Returns the node with the smallest key in the subtree.
-     * 
-     * @param x the subtree
-     * @return the node with the smallest key in the subtree
-     */
     private Node<K, V> min(Node<K, V> x) {
-        if (x.left == null) return x;
+        if (x.left == null)
+            return x;
         return min(x.left);
     }
 
-    /**
-     * Removes the smallest key and associated value from the symbol table.
-     * 
-     * @throws NoSuchElementException if the symbol table is empty
-     */
     public void deleteMin() {
         root = deleteMin(root);
     }
 
-    /**
-     * Removes the smallest key and associated value from the given subtree.
-     * 
-     * @param x the subtree
-     * @return the updated subtree
-     */
-    private Node<K,V> deleteMin(Node<K,V> curNode) {
-        if (curNode.left == null) return curNode.right;
+    private Node<K, V> deleteMin(Node<K, V> curNode) {
+        if (curNode.left == null)
+            return curNode.right;
         curNode.left = deleteMin(curNode.left);
         curNode.size = 1 + size(curNode.left) + size(curNode.right);
         curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right));
@@ -480,7 +404,7 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
 
         System.out.println(myTree);
 
-        for (MapSet.KeyValuePair<Integer, String> curNode: myTree){
+        for (MapSet.KeyValuePair<Integer, String> curNode : myTree) {
             System.out.println(curNode.getValue());
         }
     }
