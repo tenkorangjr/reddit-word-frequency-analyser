@@ -119,9 +119,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
 
     private Node<K, V> put(Node<K, V> curNode, K key, V val) {
         if (curNode == null) {
-            return new Node<K, V>(key, val, 0, 1);
+            return new Node<K, V>(key, val);
         }
-        int cmp = ((Comparable<K>) key).compareTo(curNode.getKey());
+        int cmp = comparator.compare(key, curNode.getKey());
         if (cmp < 0) {
             curNode.left = put(curNode.left, key, val);
         } else if (cmp > 0) {
@@ -241,10 +241,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
     }
 
     private Node<K, V> remove(Node<K, V> curNode, K key) {
-        int cmp = comparator.compare(key, curNode.getKey());
-        if (cmp < 0) {
+        if (comparator.compare(key, curNode.getKey()) < 0) {
             curNode.left = remove(curNode.left, key);
-        } else if (cmp > 0) {
+        } else if (comparator.compare(key, curNode.getKey()) > 0) {
             curNode.right = remove(curNode.right, key);
         } else {
             if (curNode.left == null) {
@@ -396,7 +395,7 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         AVLTreeMap<Integer, String> myTree = new AVLTreeMap<>();
 
         myTree.put(10, "Michael");
-        myTree.put(20, "Joanne");
+        myTree.put(200, "Joanne");
         myTree.put(112, "Abigail");
         myTree.put(150, "Abigail");
         myTree.put(0, "Abigail");
