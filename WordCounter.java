@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.regex.Pattern;
-
 
 public class WordCounter {
 
@@ -206,6 +206,45 @@ public class WordCounter {
         }
     }
 
+    public ArrayList<String> mostFrequentWords() {
+        int minVal = 0;
+        MapSet.KeyValuePair<String, Integer> minEntry = new MapSet.KeyValuePair<String, Integer>(null, null);
+        LinkedList<MapSet.KeyValuePair<String, Integer>> mostFrequent = new LinkedList<>();
+        ArrayList<String> words = new ArrayList<>();
+
+        for (MapSet.KeyValuePair<String, Integer> entry : storageMap.entrySet()) {
+
+            if (mostFrequent.size() <= 10) {
+                mostFrequent.add(entry);
+
+                if (entry.getValue() > minVal) {
+                    minVal = entry.getValue();
+                    minEntry = entry;
+                }
+            } else {
+                if (entry.getValue() > minVal) {
+                    mostFrequent.remove(minEntry);
+                    mostFrequent.add(entry);
+                    minVal = entry.getValue();
+
+                    for (MapSet.KeyValuePair<String, Integer> item : mostFrequent) {
+                        if (item.getValue() < minVal) {
+                            minVal = item.getValue();
+                            minEntry = item;
+                        }
+                    }
+                }
+            }
+
+        }
+        for (MapSet.KeyValuePair<String, Integer> item : mostFrequent) {
+            words.add(item.getKey());
+        }
+
+        return words;
+
+    }
+
     public boolean readWordCount(String filename) {
         clearMap();
 
@@ -240,39 +279,43 @@ public class WordCounter {
 
     public static void main(String[] args) {
         WordCounter testBST = new WordCounter("bst");
-        WordCounter testHashmap = new WordCounter("hashmap");
+        String word = "peace";
+        // WordCounter testHashmap = new WordCounter("hashmap");
 
-        String finalString = "\n\nTOTAL TIME\nBST:\n\n";
+        // String finalString = "\n\nTOTAL TIME\nBST:\n\n";
         int start = 2008;
+        System.out.println("MOST FREQUENT WORDS:");
         for (int i = 0; i < 8; i++) {
             int year = start + i;
-            System.out.println(year);
+            System.out.print(year);
             ArrayList<String> fileBST = testBST.readWords("reddit_comments_" + year + ".txt");
-            double timeTaken = testBST.buildMap(fileBST);
-            int maxDepth = testBST.storageMap.maxDepth();
-            testBST.writeWordCount("bst_test_" + year + ".txt");
-            System.out.println("Done: " + timeTaken + "ms");
+            testBST.buildMap(fileBST);
+            System.out.print(" | " + word + ": " + testBST.getCount(word) + "\n");
+            // int maxDepth = testBST.storageMap.maxDepth();
+            // testBST.writeWordCount("bst_test_" + year + ".txt");
+            // System.out.println("Done: " + timeTaken + "ms");
 
-            finalString += year + " Time Taken: " + timeTaken + " Depth: " + maxDepth + " Frequent word: "
-                    + testBST.maxNode.getKey() + "\n";
+            // finalString += year + testBST.mostFrequentWords().toString() + "\n";
         }
 
-        finalString += "\nHashMap:\n\n";
-        start = 2008;
-        for (int i = 0; i < 8; i++) {
-            int year = start + i;
-            System.out.println(year);
-            ArrayList<String> fileHashMap = testHashmap.readWords("reddit_comments_" + year + ".txt");
-            double timeTaken = testHashmap.buildMap(fileHashMap);
-            int maxDepth = testHashmap.storageMap.maxDepth();
-            testHashmap.writeWordCount("hashmap_test_" + year + ".txt");
-            System.out.println("Done: " + timeTaken + "ms");
+        // finalString += "\nHashMap:\n\n";
+        // start = 2008;
+        // for (int i = 0; i < 8; i++) {
+        // int year = start + i;
+        // System.out.println(year);
+        // ArrayList<String> fileHashMap = testHashmap.readWords("reddit_comments_" +
+        // year + ".txt");
+        // double timeTaken = testHashmap.buildMap(fileHashMap);
+        // int maxDepth = testHashmap.storageMap.maxDepth();
+        // testHashmap.writeWordCount("hashmap_test_" + year + ".txt");
+        // System.out.println("Done: " + timeTaken + "ms");
 
-            finalString += year + " Time Taken: " + timeTaken + " Depth: " + maxDepth + " Frequent word: "
-                    + testHashmap.maxNode.getKey() + "\n";
-        }
+        // finalString += year + " Time Taken: " + timeTaken + " Depth: " + maxDepth + "
+        // Frequent word: "
+        // + testHashmap.maxNode.getKey() + "\n";
+        // }
 
-        System.out.println(finalString);
+        // System.out.println(finalString);
 
     }
 }

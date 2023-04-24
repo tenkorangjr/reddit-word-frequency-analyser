@@ -1,18 +1,18 @@
 public class HashMapTests {
-    
-    public static void hashMapTests(){
+
+    public static void hashMapTests() {
         {
             /*
              * Test constructor and size() method
              */
-            //Setup
+            // Setup
             HashMap<String, Integer> map = new HashMap<>();
 
-            //Verify
+            // Verify
             System.out.println(map + " == ");
             System.out.println(map.size() + " == 0");
 
-            //Test
+            // Test
             assert map != null;
             assert map.size() == 0;
         }
@@ -21,7 +21,7 @@ public class HashMapTests {
             /*
              * Test put() and get() method
              */
-            //Setup
+            // Setup
             HashMap<String, Integer> map1 = new HashMap<>();
             HashMap<String, Integer> map2 = new HashMap<>();
 
@@ -33,15 +33,14 @@ public class HashMapTests {
             map2.put("Professor", 5);
             int oldVal = map2.put("Michael", 20);
 
-
             // Verify
             System.out.println(map1.get("Michael") + " == 10");
             System.out.println(map2.get("Michael") + " == 20");
             System.out.println(oldVal + " == 10");
 
-            //Test
+            // Test
             assert oldVal != 10 : "Put return not working";
-            assert map1.put("null", 20) == null: "Put return statement not working";
+            assert map1.put("null", 20) == null : "Put return statement not working";
         }
 
         {
@@ -49,7 +48,7 @@ public class HashMapTests {
              * Test contains method
              */
 
-             // Setup
+            // Setup
             HashMap<String, Integer> map = new HashMap<>();
             map.put("Desmond", 20);
             map.put("Christian", 40);
@@ -61,8 +60,8 @@ public class HashMapTests {
             System.out.println(map.containsKey("Desmond") + " == true");
 
             // Test
-            assert map.containsKey("Delanyo") == true: "Faulty contains method";
-            assert map.containsKey("delanyo") != true: "Faulty contains method";
+            assert map.containsKey("Delanyo") == true : "Faulty contains method";
+            assert map.containsKey("delanyo") != true : "Faulty contains method";
 
         }
 
@@ -71,7 +70,7 @@ public class HashMapTests {
              * Test remove method
              */
 
-             // Setup
+            // Setup
             HashMap<String, Integer> map = new HashMap<>();
             map.put("Desmond", 20);
             map.put("Christian", 40);
@@ -83,8 +82,8 @@ public class HashMapTests {
             System.out.println(map.containsKey("desmond") + " == false");
 
             // Test
-            assert map.remove("Christian") == 40: "Faulty remove method";
-            assert map.containsKey("Christian") == true: "remove() does not remove item from map";
+            assert map.remove("Christian") == 40 : "Faulty remove method";
+            assert map.containsKey("Christian") == true : "remove() does not remove item from map";
         }
 
         {
@@ -92,7 +91,7 @@ public class HashMapTests {
              * Test values(), keySet() & entrySet() methods
              */
 
-             // Setup
+            // Setup
             HashMap<String, Integer> map = new HashMap<>();
             map.put("Dog", 21);
             map.put("Bat", 12);
@@ -102,13 +101,14 @@ public class HashMapTests {
             // Verify
             System.out.println(map.values() + " == {12, 21, 9, 67}");
             System.out.println(map.keySet() + " == {'Dog', 'Bat', 'Sheep', 'Elephant'}");
-            System.out.println(map.entrySet() + " == {'<Dog -> 21>', '<Bat -> 12>', '<Sheep -> 9>', '<Elephant -> 67>'}");
+            System.out
+                    .println(map.entrySet() + " == {'<Dog -> 21>', '<Bat -> 12>', '<Sheep -> 9>', '<Elephant -> 67>'}");
 
             // Test
-            assert map.values() != null: "Check return for values()";
-            assert map.keySet() != null: "Check return for keySet()";
-            assert map.entrySet() != null: "Check return for entrySet()";
-    }
+            assert map.values() != null : "Check return for values()";
+            assert map.keySet() != null : "Check return for keySet()";
+            assert map.entrySet() != null : "Check return for entrySet()";
+        }
 
         {
             /*
@@ -116,6 +116,11 @@ public class HashMapTests {
              */
 
             // Setup
+            HashMap<String, Integer> map = new HashMap<>();
+            map.put("Dog", 21);
+            map.put("Bat", 12);
+            map.put("Sheep", 9);
+            map.put("Elephant", 67);
 
             // Verify
 
