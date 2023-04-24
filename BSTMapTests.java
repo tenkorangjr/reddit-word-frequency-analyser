@@ -1,12 +1,11 @@
-public class HashMapTests {
-    
-    public static void hashMapTests(){
+public class BSTMapTests {
+    public static void bstTests(){
         {
             /*
              * Test constructor and size() method
              */
             //Setup
-            HashMap<String, Integer> map = new HashMap<>();
+            BSTMap<String, Integer> map = new BSTMap<>();
 
             //Verify
             System.out.println(map + " == ");
@@ -22,8 +21,8 @@ public class HashMapTests {
              * Test put() and get() method
              */
             //Setup
-            HashMap<String, Integer> map1 = new HashMap<>();
-            HashMap<String, Integer> map2 = new HashMap<>();
+            BSTMap<String, Integer> map1 = new BSTMap<>();
+            BSTMap<String, Integer> map2 = new BSTMap<>();
 
             map1.put("Michael", 10);
             map1.put("Professor", 5);
@@ -50,7 +49,7 @@ public class HashMapTests {
              */
 
              // Setup
-            HashMap<String, Integer> map = new HashMap<>();
+            BSTMap<String, Integer> map = new BSTMap<>();
             map.put("Desmond", 20);
             map.put("Christian", 40);
             map.put("Delanyo", 60);
@@ -72,7 +71,7 @@ public class HashMapTests {
              */
 
              // Setup
-            HashMap<String, Integer> map = new HashMap<>();
+            BSTMap<String, Integer> map = new BSTMap<>();
             map.put("Desmond", 20);
             map.put("Christian", 40);
             map.put("Delanyo", 60);
@@ -93,7 +92,7 @@ public class HashMapTests {
              */
 
              // Setup
-            HashMap<String, Integer> map = new HashMap<>();
+            BSTMap<String, Integer> map = new BSTMap<>();
             map.put("Dog", 21);
             map.put("Bat", 12);
             map.put("Sheep", 9);
@@ -116,7 +115,7 @@ public class HashMapTests {
              */
 
             // Setup
-            HashMap<String, Integer> map = new HashMap<>();
+            BSTMap<String, Integer> map = new BSTMap<>();
             map.put("Dog", 21);
             map.put("Bat", 12);
             map.put("Sheep", 9);
@@ -133,6 +132,6 @@ public class HashMapTests {
     }
 
     public static void main(String[] args) {
-        hashMapTests();
+        bstTests();
     }
 }
