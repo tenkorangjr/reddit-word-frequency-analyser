@@ -84,21 +84,15 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
-    /**
-     * Returns the number key-value pairs in the symbol table.
-     * 
-     * @return the number key-value pairs in the symbol table
+    /*
+     * Return the size of the Tree
      */
     public int size() {
         return size(root);
     }
 
-    /**
-     * Returns the number of nodes in the subtree.
-     * 
-     * @param x the subtree
-     * 
-     * @return the number of nodes in the subtree
+    /*
+     * Returns the size attribute of a node or root of any subtree
      */
     private int size(Node<K, V> curNode) {
         if (curNode == null)
@@ -106,10 +100,17 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return curNode.size;
     }
 
+    /*
+     * Returns the height of the tree
+     */
     public int height() {
         return height(root);
     }
 
+    /*
+     * Returns the height attribute of a node or the height of a subtree with root
+     * curNode
+     */
     private int height(Node<K, V> curNode) {
         if (curNode == null) {
             return -1;
@@ -117,6 +118,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return curNode.height;
     }
 
+    /*
+     * Add a key-value pair to the tree
+     */
     public V put(K key, V val) {
         V oldVal = null;
         if (val == null) {
@@ -129,6 +133,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return oldVal;
     }
 
+    /*
+     * Helper function for the put method
+     */
     private Node<K, V> put(Node<K, V> curNode, K key, V val) {
         if (curNode == null) {
             return new Node<K, V>(key, val, 0, 1);
@@ -147,6 +154,10 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return balance(curNode);
     }
 
+    /*
+     * Checks for the balance factor of the node @param and performs rotations based
+     * on their balance factors
+     */
     private Node<K, V> balance(Node<K, V> curNode) {
         if (balanceFactor(curNode) < -1) {
             if (balanceFactor(curNode.right) > 0) {
@@ -162,21 +173,30 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return curNode;
     }
 
-    private int balanceFactor(Node<K, V> x) {
-        return height(x.left) - height(x.right);
+    /*
+     * Returns the balance factor of the node @param
+     */
+    private int balanceFactor(Node<K, V> curNode) {
+        return height(curNode.left) - height(curNode.right);
     }
 
-    private Node<K, V> rotateRight(Node<K, V> x) {
-        Node<K, V> y = x.left;
-        x.left = y.right;
-        y.right = x;
-        y.size = x.size;
-        x.size = 1 + size(x.left) + size(x.right);
-        x.height = 1 + Math.max(height(x.left), height(x.right));
-        y.height = 1 + Math.max(height(y.left), height(y.right));
-        return y;
+    /*
+     * Performs a right rotation on a subtree with root node @param
+     */
+    private Node<K, V> rotateRight(Node<K, V> curNode) {
+        Node<K, V> curNodeLeft = curNode.left;
+        curNode.left = curNodeLeft.right;
+        curNodeLeft.right = curNode;
+        curNodeLeft.size = curNode.size;
+        curNode.size = 1 + size(curNode.left) + size(curNode.right);
+        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right));
+        curNodeLeft.height = 1 + Math.max(height(curNodeLeft.left), height(curNodeLeft.right));
+        return curNodeLeft;
     }
 
+    /*
+     * Performs a left rotation on a subtree with root node @param
+     */
     private Node<K, V> rotateLeft(Node<K, V> curNode) {
         Node<K, V> tempNode = curNode.right;
         curNode.right = tempNode.left;
@@ -188,6 +208,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return tempNode;
     }
 
+    /*
+     * Check if a key is in the tree
+     */
     @Override
     public boolean containsKey(K key) {
         if (root == null) {
@@ -197,6 +220,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return containsKey(key, root);
     }
 
+    /*
+     * Helper method for the containsKey()
+     */
     private boolean containsKey(K key, Node<K, V> curNode) {
         if (comparator.compare(key, curNode.getKey()) > 0) {
             if (curNode.right != null) {
@@ -215,6 +241,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
+    /*
+     * Return the value of a key
+     */
     @Override
     public V get(K key) {
         if (key == root.getKey()) {
@@ -224,6 +253,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
+    /*
+     * Helper for the get() method
+     */
     private V get(K key, Node<K, V> cur) {
         if (comparator.compare(key, cur.getKey()) < 0) {
             if (cur.left != null) {
@@ -242,6 +274,10 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         }
     }
 
+    /*
+     * Remove node with key value `key`
+     * Returns the previous value
+     */
     public V remove(K key) {
         if (!containsKey(key)) {
             return null;
@@ -252,6 +288,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return oldVal;
     }
 
+    /*
+     * Helper function for the remove method that also keeps tree balanced
+     */
     private Node<K, V> remove(Node<K, V> curNode, K key) {
         int cmp = comparator.compare(key, curNode.getKey());
         if (cmp < 0) {
@@ -270,20 +309,20 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
                 curNode.left = tempNode.left;
             }
         }
-        curNode.size = 1 + size(curNode.left) + size(curNode.right);
-        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right));
-        return balance(curNode);
+        curNode.size = 1 + size(curNode.left) + size(curNode.right); // Update thesize
+        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right)); // Update the height
+        return balance(curNode); // ensure that the node is balanced
     }
 
+    /*
+     * Get the leftmost child of a tree
+     */
     public K min() {
         return min(root).getKey();
     }
 
-    /**
-     * Returns the node with the smallest key in the subtree.
-     * 
-     * @param x the subtree
-     * @return the node with the smallest key in the subtree
+    /*
+     * Return the leftmost child, given the root node of the subtree
      */
     private Node<K, V> min(Node<K, V> x) {
         if (x.left == null)
@@ -291,28 +330,40 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return min(x.left);
     }
 
-    /**
-     * Removes the smallest key and associated value from the symbol table.
-     * 
-     * @throws NoSuchElementException if the symbol table is empty
+    /*
+     * Delete the node with the smallest value in the tree
      */
     public void deleteMin() {
         root = deleteMin(root);
     }
 
+    /*
+     * Delete the node with the smallest value in the subtree with root curNode
+     * while
+     * keeping the tree balanced and keeping node attributes up-to-date
+     */
     private Node<K, V> deleteMin(Node<K, V> curNode) {
         if (curNode.left == null)
             return curNode.right;
         curNode.left = deleteMin(curNode.left);
-        curNode.size = 1 + size(curNode.left) + size(curNode.right);
-        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right));
-        return balance(curNode);
+        curNode.size = 1 + size(curNode.left) + size(curNode.right); // update the size of every node along the path of
+                                                                     // the deleted node
+        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right)); // update the height of every node
+                                                                                    // along the path of the deleted
+                                                                                    // node
+        return balance(curNode); // balance each ancestor
     }
 
+    /*
+     * String representation of the tree
+     */
     public String toString() {
         return toString(root, "root: ", "");
     }
 
+    /*
+     * Helper method for the toString method
+     */
     private String toString(Node<K, V> currNode, String mainString, String childrenString) {
         if (currNode == null) {
             return "";
@@ -329,6 +380,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return result;
     }
 
+    /*
+     * Returns a list of the keys in the tree
+     */
     @Override
     public ArrayList<K> keySet() {
         if (size() == 0) {
@@ -339,6 +393,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return keySet(root, output);
     }
 
+    /*
+     * Helper function for the keySet() method
+     */
     private ArrayList<K> keySet(Node<K, V> curNode, ArrayList<K> output) {
         if (curNode == null) {
             return null;
@@ -351,6 +408,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return output;
     }
 
+    /*
+     * Return the list of all the values of the tree
+     */
     @Override
     public ArrayList<V> values() {
         if (size() == 0) {
@@ -361,6 +421,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return values(root, output);
     }
 
+    /*
+     * Helper method for the values() method
+     */
     private ArrayList<V> values(Node<K, V> curNode, ArrayList<V> output) {
         if (curNode == null) {
             return null;
@@ -373,6 +436,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return output;
     }
 
+    /*
+     * Returns the list of all the key-value pairs in the tree
+     */
     @Override
     public ArrayList<KeyValuePair<K, V>> entrySet() {
         if (size() == 0) {
@@ -383,6 +449,9 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return entrySet(root, output);
     }
 
+    /*
+     * Helper method for the entrySet() method
+     */
     private ArrayList<KeyValuePair<K, V>> entrySet(Node<K, V> curNode, ArrayList<KeyValuePair<K, V>> output) {
         if (curNode == null) {
             return null;
@@ -395,16 +464,17 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         return output;
     }
 
-    @Override
-    public void clear() {
-        this.root = null;
-    }
-
+    /*
+     * Get the max depth of a tree
+     */
     @Override
     public int maxDepth() {
         return maxDepth(root);
     }
 
+    /*
+     * Helper method for the maxDepth() method
+     */
     private int maxDepth(Node<K, V> node) {
         if (node == null) {
             return 0;
@@ -413,6 +483,14 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
         int leftDepth = maxDepth(node.left);
         int rightDepth = maxDepth(node.right);
         return 1 + Math.max(leftDepth, rightDepth);
+    }
+
+    /*
+     * Reset the map
+     */
+    @Override
+    public void clear() {
+        this.root = null;
     }
 
     public static void main(String[] args) {
