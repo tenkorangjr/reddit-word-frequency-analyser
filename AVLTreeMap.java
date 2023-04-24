@@ -1,3 +1,8 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
