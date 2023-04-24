@@ -15,6 +15,9 @@ import java.util.regex.Pattern;
 
 public class WordCounter {
 
+    /*
+     * Creating a private node class to store the max value with its key
+     */
     private class Node<K, V> {
         private K key;
         private V value;
@@ -24,18 +27,30 @@ public class WordCounter {
             value = null;
         }
 
+        /*
+         * Get value of node
+         */
         public V getValue() {
             return value;
         }
 
+        /*
+         * Get key of node
+         */
         public K getKey() {
             return key;
         }
 
+        /*
+         * Set value of node
+         */
         public void setValue(V val) {
             this.value = val;
         }
 
+        /*
+         * Set key of node
+         */
         public void setKey(K key) {
             this.key = key;
         }
@@ -62,6 +77,9 @@ public class WordCounter {
         this.ignoreHashMap = readIgnore();
     }
 
+    /*
+     * Function to read the words in the list of words to ignore
+     */
     private HashMap<String, Integer> readIgnore() {
 
         HashMap<String, Integer> output = new HashMap<>();
@@ -95,6 +113,9 @@ public class WordCounter {
         return null;
     }
 
+    /*
+     * Read the words from a file and return an ArrayList
+     */
     public ArrayList<String> readWords(String filename) {
 
         ArrayList<String> output = new ArrayList<>();
@@ -134,6 +155,9 @@ public class WordCounter {
         return null;
     }
 
+    /*
+     * Create a map (hashmap or BST) from the ArrayList from readWords()
+     */
     public double buildMap(ArrayList<String> words) {
         double start = System.currentTimeMillis();
 
@@ -157,27 +181,45 @@ public class WordCounter {
         return end - start;
     }
 
+    /*
+     * Clear the map
+     */
     public void clearMap() {
         storageMap.clear();
         totalWordCount = 0;
     }
 
+    /*
+     * Get the total word count
+     */
     public int totalWordCount() {
         return totalWordCount;
     }
 
+    /*
+     * Get the total unique word count
+     */
     public int uniqueWordCount() {
         return storageMap.size();
     }
 
+    /*
+     * Get the total count of a word
+     */
     public int getCount(String word) {
         return storageMap.containsKey(word) ? storageMap.get(word) : 0;
     }
 
+    /*
+     * Get the frequency given a word
+     */
     public double getFrequency(String word) {
         return (double) getCount(word) / (double) totalWordCount;
     }
 
+    /*
+     * Write a new file with keys and their corresponding values
+     */
     public boolean writeWordCount(String filename) {
         createFile(filename);
 
@@ -198,6 +240,9 @@ public class WordCounter {
         }
     }
 
+    /*
+     * Create a file for storing keys and their frequency
+     */
     private void createFile(String filename) {
 
         try {
@@ -211,6 +256,9 @@ public class WordCounter {
         }
     }
 
+    /*
+     * Find the most frequent words
+     */
     public ArrayList<String> mostFrequentWords() {
         int minVal = 0;
         MapSet.KeyValuePair<String, Integer> minEntry = new MapSet.KeyValuePair<String, Integer>(null, null);
@@ -250,6 +298,9 @@ public class WordCounter {
 
     }
 
+    /*
+     * Read from the created file in writeWordCount()
+     */
     public boolean readWordCount(String filename) {
         clearMap();
 

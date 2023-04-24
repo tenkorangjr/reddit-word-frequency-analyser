@@ -46,6 +46,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         this(null);
     }
 
+    /*
+     * Iterator for the BST Map
+     */
     @Override
     public Iterator<KeyValuePair<K, V>> iterator() {
         return new InOrderIterator();
@@ -60,6 +63,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
             pushLeft(root);
         }
 
+        /*
+         * Pushes all the lefts unto the stack
+         */
         private void pushLeft(Node<K, V> node) {
             while (node != null) {
                 stack.push(node);
@@ -67,11 +73,17 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
             }
         }
 
+        /*
+         * Check if the curNode has nexts
+         */
         @Override
         public boolean hasNext() {
             return !stack.isEmpty();
         }
 
+        /*
+         * Get the next node in the tree
+         */
         @Override
         public KeyValuePair<K, V> next() {
             Node<K, V> node = stack.pop();
@@ -80,6 +92,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Add item to the tree
+     */
     @Override
     public V put(K key, V value) {
         if (size == 0) {
@@ -91,6 +106,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Helper function for put method
+     */
     public V put(K key, V value, Node<K, V> curNode) {
         if (comparator.compare(key, curNode.getKey()) < 0) {
             if (curNode.left == null) {
@@ -115,6 +133,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Check if a tree contains key
+     */
     @Override
     public boolean containsKey(K key) {
         if (root == null) {
@@ -124,6 +145,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return containsKey(key, root);
     }
 
+    /*
+     * Helper method for the contains method
+     */
     private boolean containsKey(K key, Node<K, V> curNode) {
         if (comparator.compare(key, curNode.getKey()) > 0) {
             if (curNode.right != null) {
@@ -142,6 +166,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Get the corresponding value of a key
+     */
     @Override
     public V get(K key) {
         if (key == root.getKey()) {
@@ -151,6 +178,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Helper method for the get method
+     */
     private V get(K key, Node<K, V> cur) {
         if (comparator.compare(key, cur.getKey()) < 0) {
             if (cur.left != null) {
@@ -169,6 +199,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * Remove a key from the tree
+     */
     @Override
     public V remove(K key) {
         Node<K, V> toDeleteParent = null;
@@ -201,6 +234,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return value;
     }
 
+    /*
+     * Handle the replacement of a deleted node
+     */
     private void handleReplacement(Node<K, V> toDelete, Node<K, V> toDeleteParent) {
         if (toDelete.left == null && toDelete.right == null) {
             if (toDeleteParent == null) {
@@ -252,10 +288,16 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         }
     }
 
+    /*
+     * String representation of the tree
+     */
     public String toString() {
         return toString(root, "root: ", "");
     }
 
+    /*
+     * Helper method for the toString method
+     */
     private String toString(Node<K, V> currNode, String mainString, String childrenString) {
         if (currNode == null) {
             return "";
@@ -272,6 +314,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return result;
     }
 
+    /*
+     * Returns a list of the keys in the tree
+     */
     @Override
     public ArrayList<K> keySet() {
         if (size() == 0) {
@@ -282,6 +327,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return keySet(root, output);
     }
 
+    /*
+     * Helper function for the keySet() method
+     */
     private ArrayList<K> keySet(Node<K, V> curNode, ArrayList<K> output) {
         if (curNode == null) {
             return null;
@@ -294,6 +342,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return output;
     }
 
+    /*
+     * Return the list of all the values of the tree
+     */
     @Override
     public ArrayList<V> values() {
         if (size() == 0) {
@@ -304,6 +355,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return values(root, output);
     }
 
+    /*
+     * Helper method for the values() method
+     */
     private ArrayList<V> values(Node<K, V> curNode, ArrayList<V> output) {
         if (curNode == null) {
             return null;
@@ -316,6 +370,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return output;
     }
 
+    /*
+     * Returns the list of all the key-value pairs in the tree
+     */
     @Override
     public ArrayList<KeyValuePair<K, V>> entrySet() {
         if (size() == 0) {
@@ -326,6 +383,9 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return entrySet(root, output);
     }
 
+    /*
+     * Helper method for the entrySet() method
+     */
     private ArrayList<KeyValuePair<K, V>> entrySet(Node<K, V> curNode, ArrayList<KeyValuePair<K, V>> output) {
         if (curNode == null) {
             return null;
@@ -338,22 +398,34 @@ public class BSTMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValuePair<
         return output;
     }
 
+    /*
+     * Return the size of the tree
+     */
     @Override
     public int size() {
         return this.size;
     }
 
+    /*
+     * Reset the map
+     */
     @Override
     public void clear() {
         this.size = 0;
         this.root = null;
     }
 
+    /*
+     * Get the maxDepth of the tree
+     */
     @Override
     public int maxDepth() {
         return maxDepth(root);
     }
 
+    /*
+     * Helper function for the maxDepth
+     */
     private int maxDepth(Node<K, V> node) {
         if (node == null) {
             return 0;

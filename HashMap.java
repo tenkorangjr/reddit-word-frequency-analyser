@@ -40,6 +40,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return new HashMapIterator();
     }
 
+    /*
+     * Iterator for Hashmap
+     */
     private class HashMapIterator implements Iterator<Node<K, V>> {
         private int bucketIndex;
         private Node<K, V> currentNode;
@@ -56,11 +59,17 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
             }
         }
 
+        /*
+         * Check if a Hashmap iterator hasnext()
+         */
         @Override
         public boolean hasNext() {
             return currentNode != null;
         }
 
+        /*
+         * Get the next value
+         */
         @Override
         public Node<K, V> next() {
             Node<K, V> result = currentNode;
@@ -81,14 +90,23 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         }
     }
 
+    /*
+     * Capacity of the buckets
+     */
     private int capacity() {
         return buckets.length;
     }
 
+    /*
+     * Returns hash of each key
+     */
     private int hash(K key) {
         return Math.abs(key.hashCode() % capacity());
     }
 
+    /*
+     * Adds pair to hashmap
+     */
     @Override
     public V put(K key, V value) {
         int index = hash(key);
@@ -115,6 +133,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return null;
     }
 
+    /*
+     * Resize the buckets
+     */
     private void resize(int newSize) {
         Node<K, V>[] oldBuckets = this.buckets;
         this.buckets = (Node<K, V>[]) new Node[newSize];
@@ -130,6 +151,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
 
     }
 
+    /*
+     * Check if the map contains a particular key
+     */
     @Override
     public boolean containsKey(K key) {
         int index = hash(key);
@@ -147,6 +171,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return false;
     }
 
+    /*
+     * Get the value of a particular key
+     */
     @Override
     public V get(K key) {
         int index = hash(key);
@@ -164,6 +191,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return null;
     }
 
+    /*
+     * Remove a key from the hashmap
+     */
     @Override
     public V remove(K key) {
         int index = hash(key);
@@ -204,6 +234,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         }
     }
 
+    /*
+     * Return a list of the keys in the hashmap
+     */
     @Override
     public ArrayList<K> keySet() {
         ArrayList<K> output = new ArrayList<>();
@@ -218,6 +251,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return output;
     }
 
+    /*
+     * Returns a list of the values in the hashmap
+     */
     @Override
     public ArrayList<V> values() {
         ArrayList<V> output = new ArrayList<>();
@@ -232,6 +268,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return output;
     }
 
+    /*
+     * Returns the list of all the pairs in the hashmap
+     */
     @Override
     public ArrayList<KeyValuePair<K, V>> entrySet() {
         ArrayList<KeyValuePair<K, V>> output = new ArrayList<>();
@@ -246,17 +285,26 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return output;
     }
 
+    /*
+     * Returns the number of items in the map
+     */
     @Override
     public int size() {
         return this.size;
     }
 
+    /*
+     * Reset the buckets and map
+     */
     @Override
     public void clear() {
         this.buckets = new Node[16];
         this.size = 0;
     }
 
+    /*
+     * Get the maximum depth of the hashmap
+     */
     @Override
     public int maxDepth() {
         int maxDepth = 0;
@@ -279,6 +327,9 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         return maxDepth;
     }
 
+    /*
+     * String representation of the hashmap
+     */
     public String toString() {
         String output = "\n";
 

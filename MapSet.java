@@ -25,18 +25,30 @@ public interface MapSet<K, V> {
             value = v;
         }
 
+        /*
+         * Get the key
+         */
         public K getKey() {
             return key;
         }
 
+        /*
+         * Set the value
+         */
         public void setValue(V v) {
             value = v;
         }
 
+        /*
+         * Get the value
+         */
         public V getValue() {
             return value;
         }
 
+        /*
+         * Sring representation of a key-value pair
+         */
         public String toString() {
             return "<" + key + " -> " + value + ">";
         }
