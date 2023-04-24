@@ -346,7 +346,6 @@ public class WordCounter {
             System.out.print(year);
             ArrayList<String> fileBST = testBST.readWords("reddit_comments_" + year + ".txt");
             testBST.buildMap(fileBST);
-            System.out.print(" | " + word + ": " + testBST.getCount(word) + "\n");
             // int maxDepth = testBST.storageMap.maxDepth();
             // testBST.writeWordCount("bst_test_" + year + ".txt");
             // System.out.println("Done: " + timeTaken + "ms");
