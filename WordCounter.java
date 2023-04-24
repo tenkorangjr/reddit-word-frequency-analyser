@@ -1,3 +1,8 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

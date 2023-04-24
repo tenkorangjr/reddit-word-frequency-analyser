@@ -1,3 +1,8 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -85,19 +90,19 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
     }
 
     // /*
-    //  * Return the size of the Tree
-    //  */
+    // * Return the size of the Tree
+    // */
     // public int size() {
-    //     return size(root);
+    // return size(root);
     // }
 
     // /*
-    //  * Returns the size attribute of a node or root of any subtree
-    //  */
+    // * Returns the size attribute of a node or root of any subtree
+    // */
     // private int size(Node<K, V> curNode) {
-    //     if (curNode == null)
-    //         return 0;
-    //     return curNode.size;
+    // if (curNode == null)
+    // return 0;
+    // return curNode.size;
     // }
 
     /*
@@ -108,7 +113,8 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
     }
 
     /*
-     * Returns the height attribute of a node or the height of a subtree with root curNode
+     * Returns the height attribute of a node or the height of a subtree with root
+     * curNode
      */
     private int height(Node<K, V> curNode) {
         if (curNode == null) {
@@ -152,7 +158,8 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
     }
 
     /*
-     * Checks for the balance factor of the node @param and performs rotations based on their balance factors
+     * Checks for the balance factor of the node @param and performs rotations based
+     * on their balance factors
      */
     private Node<K, V> balance(Node<K, V> curNode) {
         if (balanceFactor(curNode) < -1) {
@@ -292,7 +299,8 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
                 curNode.left = tempNode.left;
             }
         }
-        // curNode.size = 1 + size(curNode.left) + size(curNode.right); // Update the size
+        // curNode.size = 1 + size(curNode.left) + size(curNode.right); // Update the
+        // size
         curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right)); // Update the height
         return balance(curNode); // ensure that the node is balanced
     }
@@ -322,16 +330,20 @@ public class AVLTreeMap<K, V> implements MapSet<K, V>, Iterable<MapSet.KeyValueP
     }
 
     /*
-     * Delete the node with the smallest value in the subtree with root curNode while
+     * Delete the node with the smallest value in the subtree with root curNode
+     * while
      * keeping the tree balanced and keeping node attributes up-to-date
      */
     private Node<K, V> deleteMin(Node<K, V> curNode) {
-        if (curNode.left == null){
+        if (curNode.left == null) {
             return curNode.right;
         }
         curNode.left = deleteMin(curNode.left);
-        // curNode.size = 1 + size(curNode.left) + size(curNode.right); // update the size of every node along the path of the deleted node
-        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right)); // update the height of every node along the path of the deleted node
+        // curNode.size = 1 + size(curNode.left) + size(curNode.right); // update the
+        // size of every node along the path of the deleted node
+        curNode.height = 1 + Math.max(height(curNode.left), height(curNode.right)); // update the height of every node
+                                                                                    // along the path of the deleted
+                                                                                    // node
         return balance(curNode); // balance each ancestor
     }
 

@@ -1,3 +1,8 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
+
 public class HashMapTests {
 
     public static void hashMapTests() {

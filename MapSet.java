@@ -1,3 +1,7 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
 
 /**
  * Interface for a data structure that maps a key to a value, like a

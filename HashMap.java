@@ -1,3 +1,8 @@
+/*
+ * Name: Michael Tenkorang
+ * Class Purpose: Working with the HashMaps and Binary Search Trees
+ */
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -299,7 +304,7 @@ public class HashMap<K, V> implements MapSet<K, V>, Iterable<HashMap.Node<K, V>>
         // myDict.put("Abi", 100);
 
         // for(Node<String, Integer> curNode: myDict){
-        //     System.out.println(curNode.getKey());
+        // System.out.println(curNode.getKey());
         // }
 
         // System.out.println(myDict.remove(21));
